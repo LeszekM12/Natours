@@ -4,14 +4,25 @@ const app = express();
 
 app.use(express.json());
 
+app.use((req,res,next)=>{
+  console.log('Hello form the middleware!');
+  next();
+});
+
+app.use((req,res,next)=>{
+  req.requestTime = new Date().toISOString();
+  next();
+});
 
 const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`, 'utf8')
 );
 
 const getAllTours = (req, res) => {
+  console.log(req.requestTime);
   res.status(200).json({
     status: 'success',
+    requestedAt: req.requestTime,
     results: tours.length,
     data: {
       tours
@@ -26,7 +37,7 @@ const getTour = (req, res) => {
   const tour = tours.find(tour => tour.id === id);
 
   // if(id > tours.length) {
-  if(!tour) {
+  if (!tour) {
     return res.status(404).json({
       status: 'fail',
       message: 'Invalid ID'
@@ -61,7 +72,7 @@ const createTour = (req, res) => {
 
 const updateTour = (req, res) => {
   const id = req.params.id * 1;
-  if(id > tours.length) {
+  if (id > tours.length) {
     return res.status(404).json({
       status: 'fail',
       message: 'Invalid ID'
@@ -77,7 +88,7 @@ const updateTour = (req, res) => {
 
 const deleteTour = (req, res) => {
   const id = req.params.id * 1;
-  if(id > tours.length) {
+  if (id > tours.length) {
     return res.status(404).json({
       status: 'fail',
       message: 'Invalid ID'
@@ -103,7 +114,6 @@ app.route('/api/v1/tours/:id')
   .get(getTour)
   .patch(updateTour)
   .delete(deleteTour);
-
 
 
 const port = 3000;
