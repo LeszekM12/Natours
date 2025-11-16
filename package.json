@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/LeszekM12/Natours",
   "dependencies": {
-    "express": "^4.21.2"
+    "express": "^4.21.2",
+    "morgan": "^1.10.1"
   }
 }
