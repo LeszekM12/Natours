@@ -26,8 +26,7 @@ const userSchema = new mongoose.Schema({
     required: [true, 'Please confirm your password'],
   },
   photo: String,
-
-})
+});
 
 const User = mongoose.model('User', userSchema);
 
