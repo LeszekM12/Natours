@@ -14,6 +14,16 @@ const signToken = id => {
 
 const createSendToken = catchAsync(async (user, statusCode, res) => {
   const token = signToken(user._id);
+  const cookieOptions =  {
+    expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000),
+    httpOnly: true
+  }
+  if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
+
+  res.cookie('jwt', token, cookieOptions);
+
+  // Remove password from the output
+  user.password = undefined;
 
   res.status(statusCode).json({
     status: 'success',
@@ -143,11 +153,10 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   user.passwordResetToken = undefined;
   user.passwordResetExpires = undefined;
   await user.save();
-  // Update changedPassword property for the user
-
   // Log the user in, send token
   createSendToken(user, 200, res);
 });
+// Update changedPassword property for the user
 exports.updatePassword = catchAsync(async (req, res, next) => {
   // Get user form the collection
   const { passwordCurrent } = req.body;
