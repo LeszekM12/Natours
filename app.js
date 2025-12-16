@@ -1,5 +1,10 @@
 const express = require('express');
 const morgan = require('morgan');
+const rateLimit = require('express-rate-limit');
+const helmet = require('helmet');
+const mongoSanitize = require('express-mongo-sanitize');
+const xss = require('xss-clean');
+const hpp = require('hpp');
 
 const AppError = require('./utils/AppError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -8,15 +13,46 @@ const userRouter = require('./routes/userRoutes');
 
 const app = express();
 
-// Middlewares
-console.log(process.env.NODE_ENV);
+// Global Middlewares
+
+// Set Security HTTP headers
+app.use(helmet())
+// Development logging
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
+// Limit request from same API
+const limiter = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  max: 100,
+  message: 'To many requests from this IP, please try again in an hour!'
+});
+app.use('/api', limiter);
 
-app.use(express.json());
+// Body parser, reading data from the body into req.body
+app.use(express.json({ limit: '10kb' }));
+
+// Data sanitization against no SQL query injections // e.g. "email": { "$gt": ""} always true with password to login
+app.use(mongoSanitize());
+
+//  Data sanitization against no XSS // e.g. "name": "<div id='bad-code'>Name</div>"
+app.use(xss());
+
+// Preventing Parameter Pollution  // e.g. /api/v1/tours?sort=duration&sort=price
+app.use(hpp({
+  whitelist: [
+    'duration',
+    'ratingsQuantity',
+    'ratingsAverage',
+    'maxGroupSize',
+    'difficulty',
+    'price'
+  ]
+}));
+// Serving static files
 app.use(express.static(`${__dirname}/public`));
 
+// Test middleware
 app.use((req,res,next)=>{
   console.log('Hello form the middleware!');
   next();
