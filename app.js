@@ -24,7 +24,41 @@ app.set('views', path.join(__dirname, '/views'));
 // Serving static files
 app.use(express.static(path.join(__dirname, 'public')));
 // Set Security HTTP headers
-app.use( helmet.contentSecurityPolicy({ directives: { defaultSrc: ["'self'"], scriptSrc: ["'self'", "https://api.mapbox.com", "https://cdnjs.cloudflare.com"], styleSrc: ["'self'", "https://api.mapbox.com", "https://fonts.googleapis.com", "'unsafe-inline'"], fontSrc: ["'self'", "https://fonts.gstatic.com", "https://api.mapbox.com"], connectSrc: ["'self'", "https://*.mapbox.com", "https://cdnjs.cloudflare.com"], imgSrc: ["'self'", "data:", "https://*.mapbox.com"], workerSrc: ["'self'", "blob:"], }, }) );
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: [
+        "'self'",
+        "'unsafe-inline'", // Parcel może generować inline scripts
+        "'unsafe-eval'",   // Parcel może używać eval w dev
+        "https://api.mapbox.com",
+        "https://cdnjs.cloudflare.com"
+      ],
+      styleSrc: [
+        "'self'",
+        "'unsafe-inline'",
+        "https://api.mapbox.com",
+        "https://fonts.googleapis.com"
+      ],
+      fontSrc: [
+        "'self'",
+        "https://fonts.gstatic.com",
+        "https://api.mapbox.com"
+      ],
+      connectSrc: [
+        "'self'",
+        "https://*.mapbox.com",
+        "https://cdnjs.cloudflare.com",
+        "ws://127.0.0.1:65307", // WebSocket dla Parcel dev (wildcarda)
+        "blob:"
+      ],
+      imgSrc: ["'self'", "data:", "https://*.mapbox.com"],
+      workerSrc: ["'self'", "blob:"],
+    },
+  })
+);
+
 // Development logging
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
