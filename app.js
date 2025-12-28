@@ -1,12 +1,13 @@
 const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
+const AppError = require('./utils/AppError');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
-const AppError = require('./utils/AppError');
+const cookieParser = require('cookie-parser');
 
 const globalErrorHandler = require('./controllers/errorController');
 const tourRouter = require('./routes/tourRoutes');
@@ -23,7 +24,7 @@ app.set('views', path.join(__dirname, '/views'));
 // Serving static files
 app.use(express.static(path.join(__dirname, 'public')));
 // Set Security HTTP headers
-app.use( helmet.contentSecurityPolicy({ directives: { defaultSrc: ["'self'"], scriptSrc: ["'self'", "https://api.mapbox.com"], styleSrc: ["'self'", "https://api.mapbox.com", "https://fonts.googleapis.com", "'unsafe-inline'"], fontSrc: ["'self'", "https://fonts.gstatic.com", "https://api.mapbox.com"], connectSrc: ["'self'", "https://*.mapbox.com"], imgSrc: ["'self'", "data:", "https://*.mapbox.com"], workerSrc: ["'self'", "blob:"], }, }) );
+app.use( helmet.contentSecurityPolicy({ directives: { defaultSrc: ["'self'"], scriptSrc: ["'self'", "https://api.mapbox.com", "https://cdnjs.cloudflare.com"], styleSrc: ["'self'", "https://api.mapbox.com", "https://fonts.googleapis.com", "'unsafe-inline'"], fontSrc: ["'self'", "https://fonts.gstatic.com", "https://api.mapbox.com"], connectSrc: ["'self'", "https://*.mapbox.com", "https://cdnjs.cloudflare.com"], imgSrc: ["'self'", "data:", "https://*.mapbox.com"], workerSrc: ["'self'", "blob:"], }, }) );
 // Development logging
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
@@ -38,6 +39,7 @@ app.use('/api', limiter);
 
 // Body parser, reading data from the body into req.body
 app.use(express.json({ limit: '10kb' }));
+app.use(cookieParser());
 
 // Data sanitization against no SQL query injections // e.g. "email": { "$gt": ""} always true with password to login
 app.use(mongoSanitize());
@@ -65,6 +67,7 @@ app.use((req,res,next)=>{
 
 app.use((req,res,next)=>{
   req.requestTime = new Date().toISOString();
+  console.log(req.cookies);
   next();
 });
 
