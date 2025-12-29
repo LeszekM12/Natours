@@ -21,13 +21,16 @@ const login = async (email, password) => {
     showAlert('error', err.response.data.message);
   }
 };
+const form = document.querySelector('.form');
+if (form) {
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    login(email, password);
+  });
+}
 
-document.querySelector('.form').addEventListener('submit', (e) => {
-  e.preventDefault();
-  const email = document.getElementById('email').value;
-  const password = document.getElementById('password').value;
-  login(email, password);
-});
 
 const hideAlert = () => {
   const el = document.querySelector('.alert');
@@ -41,4 +44,20 @@ const showAlert = (type, msg) => {
   document.querySelector('body').insertAdjacentHTML('afterbegin', markup);
   window.setTimeout(hideAlert, 5000);
 };
+
+const logout = async () => {
+  try {
+    const res = await axios({
+      method: 'GET',
+      url: 'http://127.0.0.1:3000/api/v1/users/logout'
+    });
+    if ((res.data.status === 'success')) location.reload(true);
+  } catch (err) {
+    showAlert('error', 'Error while logging out! Try again.');
+  }
+};
+const el = document.querySelector('.nav__el--logout');
+if (el) {
+  el.addEventListener('click', logout);
+}
 
