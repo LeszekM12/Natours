@@ -21,7 +21,7 @@ const login = async (email, password) => {
     showAlert('error', err.response.data.message);
   }
 };
-const form = document.querySelector('.form');
+const form = document.querySelector('.form--login');
 if (form) {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -60,4 +60,3 @@ const el = document.querySelector('.nav__el--logout');
 if (el) {
   el.addEventListener('click', logout);
 }
-
