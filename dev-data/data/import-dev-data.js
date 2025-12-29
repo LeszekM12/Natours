@@ -26,7 +26,7 @@ const reviews = JSON.parse(fs.readFileSync(`${__dirname}/reviews.json`, { encodi
 // Import Data into Database
 const importData = async () => {
   try {
-    await Tour.create(tours);
+    await Tour.create(tours, { validateBeforeSave: false });
     await User.create(users, { validateBeforeSave: false });
     await Review.create(reviews);
     console.log('Data loaded successfully!');
