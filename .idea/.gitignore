@@ -7,4 +7,4 @@
 /dataSources/
 /dataSources.local.xml
 # Config ignored files
-config.env
+/config.env/
