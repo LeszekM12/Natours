@@ -31,6 +31,7 @@ app.use(
       defaultSrc: ["'self'"],
       scriptSrc: [
         "'self'",
+        'https://js.stripe.com',
         "'unsafe-inline'", // Parcel może generować inline scripts
         "'unsafe-eval'",   // Parcel może używać eval w dev
         "https://api.mapbox.com",
@@ -47,6 +48,7 @@ app.use(
         "https://fonts.gstatic.com",
         "https://api.mapbox.com"
       ],
+      frameSrc: [ "'self'", 'https://js.stripe.com' ],
       connectSrc: [
         "'self'",
         "https://*.mapbox.com",
