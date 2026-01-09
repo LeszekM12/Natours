@@ -11,23 +11,15 @@ const bookTour = async tourId => {
     })
   } catch (err) {
     console.log(err);
-    showAlert('error', err);
   }
 };
 
 const bookBtn = document.getElementById('book-tour');
 
-if (bookTour) {
+if (bookBtn) {
   bookBtn.addEventListener('click', e => {
     e.target.textContent = 'Processing...'
     const { tourId } = e.target.dataset;
     bookTour(tourId);
   });
 }
-
-const showAlert = (type, msg) => {
-  hideAlert();
-  const markup = `<div class="alert alert--${type}">${msg}</div>`;
-  document.querySelector('body').insertAdjacentHTML('afterbegin', markup);
-  window.setTimeout(hideAlert, 5000);
-};
