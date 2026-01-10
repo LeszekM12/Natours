@@ -8,3 +8,7 @@
 /dataSources.local.xml
 # Config ignored files
 /config.env/
+# Config ignored file
+/.prettierrc/
+# Config ignored file
+/.eslintrc.json/
