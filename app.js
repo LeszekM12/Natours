@@ -99,7 +99,7 @@ app.use(hpp({
 
 // Test middleware
 app.use((req,res,next)=>{
-  console.log('Hello form the middleware!');
+  // console.log('Hello form the middleware!');
   next();
 });
 
