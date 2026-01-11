@@ -20,9 +20,9 @@ const DB = process.env.DATABASE.replace(
 );
 console.log('MongoDB URI:', DB); // checking error
 mongoose.connect(DB, {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useFindAndModify: false
+  // useNewUrlParser: true,
+  // useCreateIndex: true,
+  // useFindAndModify: false
 }).then(() => console.log('Connected to DB'));
 
 const port = process.env.PORT || 3000;
