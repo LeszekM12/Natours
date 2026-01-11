@@ -1,10 +1,5 @@
-// Loading environment variables
-if (process.env.NODE_ENV === 'development') {
-  require('dotenv').config({ path: './config.env' });
-} else {
-  require('dotenv').config(); // Render uses its variables
-}
 const mongoose = require('mongoose');
+const dotenv = require('dotenv');
 
 process.on('uncaughtException', err => {
   console.log('UNCAUGHT EXCEPTION! Shutting down...');
@@ -12,6 +7,7 @@ process.on('uncaughtException', err => {
     process.exit(1);
 });
 
+dotenv.config({ path: './config.env' });
 const app = require('./app')
 
 const DB = process.env.DATABASE.replace(
@@ -19,11 +15,7 @@ const DB = process.env.DATABASE.replace(
   process.env.DATABASE_PASSWORD
 );
 console.log('MongoDB URI:', DB); // checking error
-mongoose.connect(DB, {
-  // useNewUrlParser: true,
-  // useCreateIndex: true,
-  // useFindAndModify: false
-}).then(() => console.log('Connected to DB'));
+mongoose.connect(DB).then(() => console.log('Connected to DB'));
 
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
