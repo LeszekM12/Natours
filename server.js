@@ -18,7 +18,7 @@ const DB = process.env.DATABASE.replace(
   '<PASSWORD>',
   process.env.DATABASE_PASSWORD
 );
-
+console.log('MongoDB URI:', DB); // checking error
 mongoose.connect(DB, {
   useNewUrlParser: true,
   useCreateIndex: true,
