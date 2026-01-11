@@ -1,5 +1,10 @@
+// Loading environment variables
+if (process.env.NODE_ENV === 'development') {
+  require('dotenv').config({ path: './config.env' });
+} else {
+  require('dotenv').config(); // Render uses its variables
+}
 const mongoose = require('mongoose');
-require('dotenv').config();
 
 process.on('uncaughtException', err => {
   console.log('UNCAUGHT EXCEPTION! Shutting down...');
