@@ -8,6 +8,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 
 const globalErrorHandler = require('./controllers/errorController');
 const tourRouter = require('./routes/tourRoutes');
@@ -22,6 +23,10 @@ app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, '/views'));
 
 // Global Middlewares
+// Implement CORS
+app.use(cors());
+
+app.options('*', cors());
 // Serving static files
 app.use(express.static(path.join(__dirname, 'public')));
 // Set Security HTTP headers
