@@ -14,10 +14,15 @@ module.exports = class Email {
     if (process.env.NODE_ENV === 'production') {
       // Sendgrid
       return nodemailer.createTransport({
-        service: 'SendGrid',
+        host: 'smtp.sendgrid.net',
+        port: 587,
+        secure: false, // port 587 = STARTTLS
         auth: {
-          user: process.env.SENDGRID_USERNAME,
-          pass: process.env.SENDGRID_PASSWORD,
+          user: 'apikey',
+          pass: process.env.SENDGRID_PASSWORD
+        },
+        tls: {
+          rejectUnauthorized: false
         }
       });
     }
@@ -51,7 +56,11 @@ module.exports = class Email {
     };
 
     // Create a transport and send email
-    await this.newTransport().sendMail(mailOptions);
+    try {
+      await this.newTransport().sendMail(mailOptions);
+    } catch (err) {
+      console.error('Email send failed:', err);
+    }
   }
 
   async sendWelcome() {
