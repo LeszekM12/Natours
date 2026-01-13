@@ -109,7 +109,9 @@ exports.isLoggedIn = async (req, res, next) => {
   if (req.cookies.jwt) {
     try {
       // verify token
-      token = req.cookies.jwt;
+      token = req.cookies?.jwt;
+      if (!token) return next();
+
       const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
       // Check if user still exists/not expired
