@@ -54,14 +54,17 @@ exports.getCheckoutSession = catchAsync(async (req, res) => {
 
 const createBookingCheckout = async session => {
 
+  const userDoc = await User.findOne({ email: session.customer_email });
+  if (!userDoc) throw new Error('User not found for email: ' + session.customer_email);
+
   const tour = session.client_reference_id;
-  const user = (await User.findOne({ email: session.customer_email })).id;
+  const user = userDoc.id;
   const price = session.amount_total / 100;
 
   await Booking.create({ tour, user, price });
 }
 
-exports.webhookCheckout = catchAsync(async (req, res, next) => {
+exports.webhookCheckout = async (req, res) => {
   const signature = req.headers['stripe-signature'];
 
   let event;
@@ -76,10 +79,10 @@ exports.webhookCheckout = catchAsync(async (req, res, next) => {
   }
 
   if (event.type === 'checkout.session.completed') {
-    createBookingCheckout(event.data.object);
+    await createBookingCheckout(event.data.object);
   }
   res.status(200).json({ received: true });
-});
+};
 
 exports.createBooking = factory.createOne(Booking);
 exports.getBooking = factory.getOne(Booking);
