@@ -1,6 +1,7 @@
 const nodemailer = require('nodemailer');
 const pug = require('pug');
 const { htmlToText } = require('html-to-text');
+const AppError = require('./appError');
 
 module.exports = class Email {
   constructor(user, url) {
@@ -19,7 +20,7 @@ module.exports = class Email {
         secure: false, // port 587 = STARTTLS
         auth: {
           user: 'apikey',
-          pass: process.env.SENDGRID_PASSWORD
+          pass: process.env.SENDGRID_API_KEY
         },
         tls: {
           rejectUnauthorized: false
@@ -60,6 +61,7 @@ module.exports = class Email {
       await this.newTransport().sendMail(mailOptions);
     } catch (err) {
       console.error('Email send failed:', err);
+      throw new AppError('Email sending failed. Please try again later', 500);
     }
   }
 
