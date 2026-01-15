@@ -24,3 +24,8 @@ if (bookBtn) {
     bookTour(tourId);
   });
 }
+
+const alertMessage = document.querySelector('body').dataset.alert;
+if (alertMessage && alertMessage.trim() !== '') {
+  showAlert('success', alertMessage, 12);
+}
