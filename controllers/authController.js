@@ -152,13 +152,12 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 
   // Send it to user email
   try {
-    const resetURL = `${req.protocol}://${req.get('host')}
-    /api/v1/users/resetPassword/${resetToken}`;
+    const resetURL = `${req.protocol}://${req.get('host')}/reset-password/${resetToken}`;
     await new Email(user, resetURL).sendPasswordReset();
 
-    res.status(200).json({
-      status: 'success',
-      message: 'Token sent to email!'
+    res.status(200).render('message', {
+      title: 'Email sent!',
+      message: 'We’ve sent you a password reset link. Please check your inbox'
     });
   } catch (err) {
     user.passwordResetToken = undefined;
@@ -192,8 +191,12 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   user.passwordResetExpires = undefined;
   await user.save();
   // Log the user in, send token
-  createSendToken(user, 200, res);
+  res.status(200).render('message', {
+    title: 'Password reset successful!',
+    message: 'You can now log in with your new password!'
+  });
 });
+
 // Update changedPassword property for the user
 exports.updatePassword = catchAsync(async (req, res, next) => {
   // Get user form the collection
