@@ -28,4 +28,8 @@ if (bookBtn) {
 const alertMessage = document.querySelector('body').dataset.alert;
 if (alertMessage && alertMessage.trim() !== '') {
   showAlert('success', alertMessage, 12);
+
+  const url = new URL(window.location.href);
+  url.searchParams.delete('alert');
+  window.history.replaceState({}, document.title, url.pathname);
 }

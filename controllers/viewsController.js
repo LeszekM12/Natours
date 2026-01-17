@@ -34,9 +34,26 @@ exports.getTour = catchAsync(async (req, res, next) => {
     return next(new AppError('There is no tour with that name.', 404));
   }
 
+  const currentUser = req.user || res.locals.user;
+
+  let userHasBooking = false;
+
+  if (currentUser) {
+    const booking = await Booking.findOne({
+      user: currentUser._id,
+      tour: tour._id
+    });
+    userHasBooking = Boolean(booking);
+  }
+
+  if (req.query.alert === 'review-success') res.locals.alert = 'The opinion has been added';
+  if (req.query.alert === 'review-duplicate') res.locals.alert = 'You can only add one opinion for this tour';
+
   res.status(200).render('tour', {
     title: `${tour.name} Tour`,
-    tour
+    tour,
+    userHasBooking,
+    user: currentUser,
   });
 });
 
