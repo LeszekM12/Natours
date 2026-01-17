@@ -25,4 +25,12 @@ router.route('/:id')
   .delete(authController.restrictTo('user', 'admin'),
     reviewController.deleteReview);
 
+router.post(
+  '/:tourId',
+  authController.protect,
+  reviewController.canReview,
+  reviewController.createReview
+);
+
+
 module.exports = router;
