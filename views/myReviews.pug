@@ -2,6 +2,7 @@ extends base
 include _reviewCard
 
 block content
+  - const isMyReviews = true;
     section.section-header
         .heading-box
             h1.heading-primary
@@ -13,4 +14,4 @@ block content
                 p.cta__text.ma-bt-lg You haven't written any reviews yet!
             else
               each review in reviews
-                  +reviewCard(review)
+                  +reviewCard(review, isMyReviews)
