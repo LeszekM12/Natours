@@ -1,0 +1,16 @@
+extends base
+include _reviewCard
+
+block content
+    section.section-header
+        .heading-box
+            h1.heading-primary
+                span My reviews
+
+    section.section-reviews
+        .reviews
+            if reviews.length === 0
+                p.cta__text.ma-bt-lg You haven't written any reviews yet!
+            else
+              each review in reviews
+                  +reviewCard(review)
