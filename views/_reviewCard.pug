@@ -1,5 +1,6 @@
-mixin reviewCrad(review)
+mixin reviewCard(review)
     .reviews__card
+        a.review-card__tour.btn.btn--small(href=`/tour/${review.tour.slug}`)= review.tour.name
         .reviews__avatar
             img.reviews__avatar-img(src=`/img/users/${review.user.photo}`, alt=`${review.user.name}`)
             h6.reviews__user= review.user.name
