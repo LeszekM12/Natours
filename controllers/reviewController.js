@@ -51,15 +51,29 @@ exports.updateReview = catchAsync(async (req, res, next) => {
     return next(new AppError('No review found with that ID', 404));
   }
 
-  // Protect owner
-  if (review.user.id !== req.user.id) {
-    return next(new AppError('You do not have permission to update this review.', 403));
+  if (review.user._id.toString() !== req.user.id.toString()) {
+    return next(new AppError('You do not have permission to edit this review.', 403));
   }
 
-  // Update by factory
-  await factory.updateOne(Review)(req, res, next);
-});
+  const updatedReview = await Review.findByIdAndUpdate(
+    req.params.id,
+    {
+      review: req.body.review,
+      rating: req.body.rating
+    },
+    {
+      new: true,
+      runValidators: true
+    }
+  );
 
+  res.status(200).json({
+    status: 'success',
+    data: {
+      review: updatedReview
+    }
+  });
+});
 
 exports.deleteReview = catchAsync(async (req, res, next) => {
   const review = await Review.findById(req.params.id).select('user');
