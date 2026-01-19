@@ -2,16 +2,42 @@ extends base
 include _reviewCard
 
 block content
-  - const isMyReviews = true;
-    section.section-header
-        .heading-box
-            h1.heading-primary
-                span My reviews
+    .my-reviews-page
+      - const isMyReviews = true;
 
-    section.section-reviews
-        .reviews
-            if reviews.length === 0
-                p.cta__text.ma-bt-lg You haven't written any reviews yet!
-            else
-              each review in reviews
-                  +reviewCard(review, isMyReviews)
+        section.section-header
+            .heading-box
+                h1.heading-primary
+                    span My reviews
+
+        section.section-reviews
+            .reviews
+                if reviews.length === 0
+                    p.cta__text.ma-bt-lg You haven't written any reviews yet!
+                else
+                  each review in reviews
+                      +reviewCard(review, isMyReviews)
+
+        // MODAL TYLKO DO EDYCJI
+        div#review-modal.modal.hidden
+            .modal__content
+                button.modal__close(type="button") &times;
+                h2.modal__title.heading-secondary Edit your review
+
+                form#review-form
+                    .form__group
+                        label.form__label(for="review") Your review
+                        textarea.form__input(name="review" id="reviewText" required)
+
+                    .form__group
+                        label.form__label(for="rating") Rating
+                        select.form__input(name="rating" id="reviewRating" required)
+                            option(value="5" selected) 5
+                            option(value="4") 4
+                            option(value="3") 3
+                            option(value="2") 2
+                            option(value="1") 1
+
+                    button#reviewSubmitBtn.btn.btn--green(type="submit") Save changes
+
+            div.modal__overlay

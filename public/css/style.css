@@ -1360,6 +1360,16 @@ body {
     padding-top: 5vh;
 }
 
+.modal--inline {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    margin-left: 2rem;
+    width: 320px;
+    z-index: 1000;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+}
+
 .modal.hidden {
     display: none;
 }
@@ -1385,6 +1395,22 @@ body {
     max-width: 90%;
     margin: 0 auto;
 }
+
+/* tylko na stronie myReviews */
+.my-reviews-page {
+    position: relative;
+}
+
+
+
+/* modal edycji tylko na myReviews */
+.my-reviews-page #review-modal {
+    position: absolute;
+    top: 0;
+    right: -360px; /* odsuwa modal w prawo od listy */
+    width: 320px;
+}
+
 
 
 
