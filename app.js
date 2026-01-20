@@ -65,7 +65,7 @@ app.use(
         "ws://127.0.0.1:65307", // WebSocket dla Parcel dev (wildcarda)
         "blob:"
       ],
-      imgSrc: ["'self'", "data:", "https://*.mapbox.com"],
+      imgSrc: ["'self'", "data:", "https://*.mapbox.com", "https://res.cloudinary.com", "https://*.cloudinary.com"],
       workerSrc: ["'self'", "blob:"],
     },
   })
