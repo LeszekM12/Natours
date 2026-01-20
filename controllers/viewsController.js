@@ -28,7 +28,10 @@ exports.getOverview = catchAsync(async (req, res) => {
 exports.getTour = catchAsync(async (req, res, next) => {
   const tour = await Tour.findOne({ slug: req.params.slug }).populate({
     path: 'reviews',
-    fields: 'review rating, user',
+    populate: {
+      path: 'user',
+      select: 'name photo'
+    }
   });
 
   if (!tour) {
@@ -123,6 +126,9 @@ exports.getMyReviews = catchAsync(async (req, res, next) => {
   const reviews = await Review.find({ user: req.user.id }).populate({
     path: 'tour',
     select: 'name slug imageCover'
+  }).populate({
+    path: 'user',
+    select: 'name photo'
   });
 
   res.status(200).render('myReviews', {

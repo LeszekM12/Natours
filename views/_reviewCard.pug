@@ -5,12 +5,23 @@ mixin reviewCard(review, isMyReviews)
                 button.reviews__edit(data-review-id=review._id)
                     img.reviews__edit-icon(src='/img/edit-icon.svg', alt='Edit review')
                 button.reviews__delete(data-review-id=review._id) ×
+
         a.review-card__tour.btn.btn--small(href=`/tour/${review.tour.slug}`)= review.tour.name
+
         .reviews__avatar
-            img.reviews__avatar-img(src=`/img/users/${review.user.photo}`, alt=`${review.user.name}`)
-            h6.reviews__user= review.user.name
+            img.reviews__avatar-img(
+                src= review.user && review.user.photo
+                  ? (review.user.photo.startsWith('http')
+                    ? review.user.photo
+                    : `/img/users/${review.user.photo}`)
+                : '/img/default.jpg',
+                alt= review.user && review.user.name ? review.user.name : 'User'
+            )
+            h6.reviews__user= review.user && review.user.name ? review.user.name : 'Unknown user'
+
         p.reviews__text= review.review
+
         .reviews__rating
           each star in [1, 2, 3, 4, 5]
-                svg.reviews__star(class=`reviews__star--${review.rating >= star ? 'active' : 'inactive'}`)
-                    use(xlink:href='/img/icons.svg#icon-star')
+              svg.reviews__star(class=`reviews__star--${review.rating >= star ? 'active' : 'inactive'}`)
+                  use(xlink:href='/img/icons.svg#icon-star')

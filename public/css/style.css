@@ -1210,6 +1210,11 @@ body {
 .card__footer-text {
   color: #999;
 }
+
+.card__footer-label {
+    margin-left: 4px;
+}
+
 .card__ratings {
   grid-row: 2 / 3;
 }
