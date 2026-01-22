@@ -1,0 +1,28 @@
+extends base
+
+block content
+    main.main
+        .user-view__form-container
+            h2.heading-secondary.ma-bt-md Billing
+
+            .form__group
+                label.form__label Payment method
+                .card-info
+                    .card-info__row
+                        span.card-info__label Card
+                        span.card-info__value#cardNumber **** **** **** 4242
+                        button.card-info__toggle(type='button' id='cardToggle')
+                            svg.card-info__icon#eyeOpen
+                                use(xlink:href='/img/icons.svg#icon-eye')
+                            svg.card-info__icon.card-info__icon--hidden#eyeClosed
+                                use(xlink:href='/img/icons.svg#icon-eye-off')
+
+                    .card-info__row
+                        span.card-info__label Expires
+                        span.card-info__value 12/30
+
+                    .card-info__row
+                        span.card-info__label Type
+                        span.card-info__value Visa
+
+                p.card-info__note This is a test card automatically assigned to your account. Use this one to book your tour!

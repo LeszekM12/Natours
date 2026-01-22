@@ -1401,20 +1401,74 @@ body {
     margin: 0 auto;
 }
 
-/* tylko na stronie myReviews */
 .my-reviews-page {
     position: relative;
 }
 
-
-
-/* modal edycji tylko na myReviews */
 .my-reviews-page #review-modal {
     position: absolute;
     top: 0;
-    right: -360px; /* odsuwa modal w prawo od listy */
+    right: -360px;
     width: 320px;
 }
+
+.card-info {
+    background-color: #f7f7f7;
+    padding: 4rem;
+    border-radius: 5px;
+    font-size: 1.8rem
+}
+
+.card-info__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.card-info__label {
+    font-weight: 600;
+    color: #333;
+    font-size: 1.6rem;
+}
+
+.card-info__value {
+    font-family: monospace;
+    font-size: 2rem;
+}
+
+.card-info__toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: 2rem;
+}
+
+.card-info__icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    fill: #555;
+}
+
+.card-info__note {
+    font-size: 1.4rem;
+    color: #777;
+    margin-top: 2rem;
+}
+
+.card-info__icon--hidden {
+    display: none;
+}
+
+.card-info__toggle.showing .card-info__icon--hidden {
+    display: inline;
+}
+
+.card-info__toggle.showing #eyeOpen {
+    display: none;
+}
+
+
 
 
 

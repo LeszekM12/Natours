@@ -92,6 +92,12 @@ exports.getResetPasswordForm = (req, res) => {
   });
 };
 
+exports.getBillingPage = (req, res) => {
+  res.status(200).render('billing', {
+    title: 'Your billing',
+  });
+};
+
 
 exports.getMyTours = catchAsync(async (req, res, next) => {
   // Find all bookings
