@@ -8,17 +8,22 @@ block content
         section.section-header
             .heading-box
                 h1.heading-primary
-                    span My reviews
+                    span My Reviews
 
         section.section-reviews
-            .reviews
-                if reviews.length === 0
-                    p.cta__text.ma-bt-lg You haven't written any reviews yet!
-                else
+            if reviews.length === 0
+                .empty-state
+                    svg.empty-state__icon
+                        use(xlink:href='/img/icons.svg#icon-edit')
+                    h3.empty-state__title You haven’t written any reviews yet
+                    p.empty-state__text Share your thoughts and help others discover amazing tours.
+                    a.btn.btn--green(href='/my-tours') Write your first review
+            else
+                .reviews
                   each review in reviews
                       +reviewCard(review, isMyReviews)
 
-        // MODAL TYLKO DO EDYCJI
+        // MODAL ONLY FOR EDITING
         div#review-modal.modal.hidden
             .modal__content
                 button.modal__close(type="button") &times;
