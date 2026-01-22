@@ -17,6 +17,7 @@ The project includes a complete user system, secure authentication, payments, im
 - **MongoDB + Mongoose** - database & ODM
 - **JWT Authentication** - secure login, signup, password reset
 - **Stripe** - payment processing (Checkout Sessions)
+- **Mapbox** - interactive map rendering for tour locations using secure server-side token handling
 - **Cloudinary** - image hosting for users and tours
 - **Multer + Sharp** - image upload & optimization
 - **SendGrid** - transactional emails (welcome, password reset)
@@ -26,7 +27,7 @@ The project includes a complete user system, secure authentication, payments, im
 - **Pug Templates** - server‑side rendering
 - **Vanilla JS** - dynamic UI (reviews, billing, modals)
 - **SCSS/CSS** - responsive, modern UI
-- **Parcel / Bundling** (opcjonalnie, jeśli używasz)
+- **Parcel / Bundling** - bundling frontend assets for production
 
 ---
 
