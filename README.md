@@ -104,3 +104,17 @@ This collection includes:
 - reviews
 - users
 - tours
+
+---
+
+## 🙌 Credits
+
+This project is based on the Natours application from Jonas Schmedtmann’s  
+**“Node.js, Express, MongoDB & More: The Complete Bootcamp”** course.
+
+The original project structure, core concepts, and initial architecture were inspired by his work.  
+All additional features, UI improvements, integrations (Stripe, Cloudinary), security upgrades,  
+and dashboard enhancements were designed and implemented by **Leszek**.
+
+Special thanks to Jonas for creating one of the best Node.js learning resources available.
+
