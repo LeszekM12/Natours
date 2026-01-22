@@ -2,54 +2,59 @@ extends base
 
 block content
     main.main
-        .card-container
-          each tour in tours
-              .card
-                  .card__header
-                      .card__picture
-                          .card__picture-overlay &nbsp;
-                          img.card__picture-img(
-                              src= tour.imageCover.startsWith('http')
-                                ? tour.imageCover
-                              : `/img/tours/${tour.imageCover}`,
-                              alt=tour.name
-                          )
-                      h3.heading-tertirary
-                          span= tour.name
+        if tours.length === 0
+            .empty-state
+                h3.empty-state__title You haven’t booked any tours yet
+                p.empty-state__text Book your first tour and start your adventure with Natours.
+                a.btn.btn--green(href='/') Browse all tours
+        else
+            .card-container
+              each tour in tours
+                  .card
+                      .card__header
+                          .card__picture
+                              .card__picture-overlay &nbsp;
+                              img.card__picture-img(
+                                  src= tour.imageCover.startsWith('http')
+                                    ? tour.imageCover : `/img/tours/${tour.imageCover}`,
+                                  alt=tour.name
+                              )
+                          h3.heading-tertirary
+                              span= tour.name
 
-                  .card__details
-                      h4.card__sub-heading= `${tour.difficulty} ${tour.duration}-day tour`
-                      p.card__text= tour.summary
+                      .card__details
+                          h4.card__sub-heading= `${tour.difficulty} ${tour.duration}-day tour`
+                          p.card__text= tour.summary
 
-                      .card__data
-                          svg.card__icon
-                              use(xlink:href='/img/icons.svg#icon-map-pin')
-                          span= tour.startLocation.description
+                          .card__data
+                              svg.card__icon
+                                  use(xlink:href='/img/icons.svg#icon-map-pin')
+                              span= tour.startLocation.description
 
-                      .card__data
-                          svg.card__icon
-                              use(xlink:href='/img/icons.svg#icon-calendar')
-                          span= tour.startDates[0].toLocaleString('en-us', { month: 'long', year: 'numeric' })
+                          .card__data
+                              svg.card__icon
+                                  use(xlink:href='/img/icons.svg#icon-calendar')
+                              span= tour.startDates[0].toLocaleString('en-us', { month: 'long', year: 'numeric' })
 
-                      .card__data
-                          svg.card__icon
-                              use(xlink:href='/img/icons.svg#icon-flag')
-                          span= `${tour.locations.length} stops`
+                          .card__data
+                              svg.card__icon
+                                  use(xlink:href='/img/icons.svg#icon-flag')
+                              span= `${tour.locations.length} stops`
 
-                      .card__data
-                          svg.card__icon
-                              use(xlink:href='/img/icons.svg#icon-user')
-                          span= `${tour.maxGroupSize} people`
+                          .card__data
+                              svg.card__icon
+                                  use(xlink:href='/img/icons.svg#icon-user')
+                              span= `${tour.maxGroupSize} people`
 
-                  .card__footer
-                      p
-                          span.card__footer-value= `$${tour.price}`
-                          span.card__footer-label
-                          span.card__footer-text per person
+                      .card__footer
+                          p
+                              span.card__footer-value= `$${tour.price}`
+                              span.card__footer-label
+                              span.card__footer-text per person
 
-                      p.card__ratings
-                          span.card__footer-value= tour.ratingsAverage.toFixed(1)
-                          span.card__footer-label Rating
-                          span.card__footer-text= `(${tour.ratingsQuantity})`
+                          p.card__ratings
+                              span.card__footer-value= tour.ratingsAverage.toFixed(1)
+                              span.card__footer-label Rating
+                              span.card__footer-text= `(${tour.ratingsQuantity})`
 
-                      a.btn.btn--green.btn--small(href=`/tour/${tour.slug}`) Details
+                          a.btn.btn--green.btn--small(href=`/tour/${tour.slug}`) Details

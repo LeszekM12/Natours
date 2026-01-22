@@ -1468,6 +1468,35 @@ body {
     display: none;
 }
 
+.empty-state {
+    background-color: #f7f7f7;
+    padding: 4rem;
+    border-radius: 8px;
+    text-align: center;
+    margin-top: 3rem;
+}
+
+.empty-state__title {
+    font-size: 2.4rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: #333;
+}
+
+.empty-state__text {
+    font-size: 1.6rem;
+    color: #666;
+    margin-bottom: 2.5rem;
+}
+
+.empty-state__icon {
+    width: 4rem;
+    height: 4rem;
+    fill: #55c57a;
+    margin-bottom: 2rem;
+}
+
+
 
 
 
