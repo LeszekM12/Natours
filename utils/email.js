@@ -1,4 +1,4 @@
-const nodemailer = require('nodemailer');
+const axios = require('axios');
 const pug = require('pug');
 const { htmlToText } = require('html-to-text');
 
@@ -7,22 +7,11 @@ module.exports = class Email {
     this.to = user.email;
     this.firstName = user.name.split(' ')[0];
     this.url = url;
-    this.from = `Leszek Mikrut <${process.env.EMAIL_FROM}>`;
-  }
-
-  newTransport() {
-    return nodemailer.createTransport({
-      host: 'smtp-relay.brevo.com',
-      port: 587,
-      auth: {
-        user: process.env.BREVO_USER,
-        pass: process.env.BREVO_PASS
-      }
-    });
+    this.from = process.env.EMAIL_FROM;
   }
 
   async send(template, subject) {
-    // Render HTML form Pug
+
     const html = pug.renderFile(
       `${__dirname}/../views/emails/${template}.pug`,
       {
@@ -32,21 +21,27 @@ module.exports = class Email {
       }
     );
 
-
-    const mailOptions = {
-      from: this.from,
-      to: this.to,
-      subject,
-      html,
-      text: htmlToText(html)
-    };
-
-    // Send Brevo SMTP
     try {
-      await this.newTransport().sendMail(mailOptions);
+      await axios.post(
+        'https://api.brevo.com/v3/smtp/email',
+        {
+          sender: { email: this.from },
+          to: [{ email: this.to }],
+          subject,
+          htmlContent: html,
+          textContent: htmlToText(html)
+        },
+        {
+          headers: {
+            'api-key': process.env.BREVO_API_KEY,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+
       console.log('✅ Email sent to:', this.to);
     } catch (err) {
-      console.error('❌ Email send error:', err);
+      console.error('❌ Email send error:', err.response?.data || err);
       throw err;
     }
   }
