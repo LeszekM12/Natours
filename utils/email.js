@@ -1,4 +1,4 @@
-const sgMail = require('@sendgrid/mail');
+const nodemailer = require('nodemailer');
 const pug = require('pug');
 const { htmlToText } = require('html-to-text');
 
@@ -8,33 +8,45 @@ module.exports = class Email {
     this.firstName = user.name.split(' ')[0];
     this.url = url;
     this.from = `Leszek Mikrut <${process.env.EMAIL_FROM}>`;
+  }
 
-    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+  newTransport() {
+    return nodemailer.createTransport({
+      host: 'smtp-relay.brevo.com',
+      port: 587,
+      auth: {
+        user: process.env.BREVO_USER,
+        pass: process.env.BREVO_PASS
+      }
+    });
   }
 
   async send(template, subject) {
-    // 1) Render HTML z Pug
-    const html = pug.renderFile(`${__dirname}/../views/emails/${template}.pug`, {
-      firstName: this.firstName,
-      url: this.url,
-      subject
-    });
+    // Render HTML form Pug
+    const html = pug.renderFile(
+      `${__dirname}/../views/emails/${template}.pug`,
+      {
+        firstName: this.firstName,
+        url: this.url,
+        subject
+      }
+    );
 
-    // 2) Opcje maila
-    const msg = {
-      to: this.to,
+
+    const mailOptions = {
       from: this.from,
+      to: this.to,
       subject,
       html,
       text: htmlToText(html)
     };
 
-    // 3) Wyślij maila przez SendGrid API
+    // Send Brevo SMTP
     try {
-      await sgMail.send(msg);
-      console.log('✅ Email send to:', this.to);
+      await this.newTransport().sendMail(mailOptions);
+      console.log('✅ Email sent to:', this.to);
     } catch (err) {
-      console.error('❌ Email send error:', err.response?.body || err);
+      console.error('❌ Email send error:', err);
       throw err;
     }
   }
