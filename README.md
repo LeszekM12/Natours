@@ -6,8 +6,23 @@
 
 Natours is a full‑stack web application for browsing, booking and reviewing adventure tours.  
 The project includes a complete user system, secure authentication, payments, image uploads, and a polished user dashboard.
+---
+
+## 🚀 Live Demo
+
+👉 **[Natours-Mikrut.com](natours-mikrut.com)**
 
 ---
+
+## 📸 Preview
+
+> ![img.png](img.png)
+>
+> ![img_1.png](img_1.png)
+>
+> ![img_2.png](img_2.png)
+> 
+> ![img_3.png](img_3.png)
 
 ## 🚀 Tech Stack
 
@@ -51,7 +66,7 @@ The project includes a complete user system, secure authentication, payments, im
 - Manage tours, users, reviews, bookings (API)
 - Upload and process images
 - Secure role‑based access
-
+> ![img_4.png](img_4.png)
 ---
 
 ## 💳 Payments (Stripe)
